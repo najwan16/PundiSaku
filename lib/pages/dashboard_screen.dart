@@ -30,13 +30,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: PieChart(
                   PieChartData(
                     sections: [
-                      PieChartSectionData(value: provider.summary['income'], color: Colors.green, title: 'Income'),
-                      PieChartSectionData(value: provider.summary['expense'], color: Colors.red, title: 'Expense'),
+                      PieChartSectionData(
+                        value: provider.summary['income'],
+                        color: Colors.green,
+                        title: 'Income',
+                      ),
+                      PieChartSectionData(
+                        value: provider.summary['expense'],
+                        color: Colors.red,
+                        title: 'Expense',
+                      ),
                     ],
                   ),
                 ),
               ),
-              Expanded(child: TransactionList(transactions: provider.transactions)),
+              Expanded(
+                child: TransactionList(transactions: provider.transactions),
+              ),
             ],
           );
         },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -14,11 +15,17 @@ class TransactionList extends StatelessWidget {
         var tx = transactions[index];
         return InkWell(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Tapped: ${tx.description}')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Tapped: ${tx.description}')),
+            );
           },
           child: ListTile(
-            title: Text('${tx.type.toUpperCase()}: ${tx.amount} - ${tx.category}'),
-            subtitle: Text('${tx.description} - ${DateFormat('dd MMM yyyy').format(tx.date)}'),
+            title: Text(
+              '${tx.type.toUpperCase()}: ${tx.amount} - ${tx.category}',
+            ),
+            subtitle: Text(
+              '${tx.description} - ${DateFormat('dd MMM yyyy').format(tx.date)}',
+            ),
           ),
         );
       },

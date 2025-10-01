@@ -28,12 +28,12 @@ class Transaction {
 
   static Transaction fromMap(Map<String, dynamic> map) {
     return Transaction(
-      id: map['id'],
-      type: map['type'],
-      amount: map['amount'],
-      category: map['category'],
-      description: map['description'],
-      date: DateTime.parse(map['date']),
+      id: map['id'] as int?,
+      type: map['type'] as String,
+      amount: (map['amount'] as num).toDouble(),
+      category: map['category'] as String,
+      description: map['description'] as String,
+      date: DateTime.parse(map['date'] as String),
     );
   }
 }

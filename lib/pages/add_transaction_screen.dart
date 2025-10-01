@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../models/transaction.dart';
 import '../providers/transaction_provider.dart';
@@ -17,7 +16,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   double _amount = 0;
   String _category = '';
   String _description = '';
-  DateTime _date = DateTime.now();
+  final DateTime _date = DateTime.now();
 
   void _saveTransaction() async {
     if (_formKey.currentState!.validate()) {
@@ -30,7 +29,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         date: _date,
       );
       await context.read<TransactionProvider>().addTransaction(tx);
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -45,9 +46,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           child: Column(
             children: [
               DropdownButtonFormField<String>(
-                value: _type,
+                initialValue: _type,
                 items: ['income', 'expense'].map((String value) {
-                  return DropdownMenuItem<String>(value: value, child: Text(value.toUpperCase()));
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value.toUpperCase()),
+                  );
                 }).toList(),
                 onChanged: (value) => setState(() => _type = value!),
               ),
@@ -72,12 +76,17 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('OCR Feature Coming Soon')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('OCR Feature Coming Soon')),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.blueGrey,
-                  child: const Text('Scan Struk (OCR)', style: TextStyle(color: Colors.white)),
+                  child: const Text(
+                    'Scan Struk (OCR)',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

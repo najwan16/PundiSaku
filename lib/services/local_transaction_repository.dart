@@ -1,17 +1,21 @@
+import 'package:sqflite/sqflite.dart' hide Transaction;
 import '../models/transaction.dart';
 import 'database_helper.dart';
 
 class LocalTransactionRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
-  Future<int> insertTransaction(Transaction transaction) async {
+  Future<int> insertTransaction(Map<String, dynamic> transactionMap) async {
     Database db = await _databaseHelper.database;
-    return await db.insert('transactions', transaction.toMap());
+    return await db.insert('transactions', transactionMap);
   }
 
   Future<List<Transaction>> getTransactions() async {
     Database db = await _databaseHelper.database;
-    List<Map<String, dynamic>> maps = await db.query('transactions', orderBy: 'date DESC');
+    List<Map<String, dynamic>> maps = await db.query(
+      'transactions',
+      orderBy: 'date DESC',
+    );
     return List.generate(maps.length, (i) => Transaction.fromMap(maps[i]));
   }
 
@@ -20,8 +24,11 @@ class LocalTransactionRepository {
     double income = 0;
     double expense = 0;
     for (var tx in transactions) {
-      if (tx.type == 'income') income += tx.amount;
-      else expense += tx.amount;
+      if (tx.type == 'income') {
+        income += tx.amount;
+      } else {
+        expense += tx.amount;
+      }
     }
     return {'income': income, 'expense': expense};
   }
